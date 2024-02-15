@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      target: base
+    container_name: child_state_machine_web
+    command: mix phx.server
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/child_state_machine
