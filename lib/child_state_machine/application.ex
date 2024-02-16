@@ -16,7 +16,8 @@ defmodule ChildStateMachine.Application do
       # Start a worker by calling: ChildStateMachine.Worker.start_link(arg)
       # {ChildStateMachine.Worker, arg},
       # Start to serve requests, typically the last entry
-      ChildStateMachineWeb.Endpoint
+      ChildStateMachineWeb.Endpoint,
+      ChildStateMachine
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -17,7 +17,7 @@ defmodule ChildStateMachineWeb.Router do
   scope "/", ChildStateMachineWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", ChildLiveView
   end
 
   # Other scopes may use custom stacks.

@@ -12,3 +12,5 @@ services:
       - 4000:4000
     volumes:
       - .:/child_state_machine
+    environment:
+      - MIX_ENV=dev
