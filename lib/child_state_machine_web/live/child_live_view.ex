@@ -55,6 +55,7 @@ defmodule ChildStateMachineWeb.ChildLiveView do
           phx-click="send_event"
           phx-value-event="call_to_kindergarten"
           class="px-4 py-2 bg-brand text-black rounded hover:bg-brand-dark"
+          id="to-hiding-btn"
         >
           Go to Kindergarten
         </button>
@@ -63,6 +64,7 @@ defmodule ChildStateMachineWeb.ChildLiveView do
           phx-click="send_event"
           phx-value-event="call_to_play"
           class="px-4 py-2 bg-green-500 text-black rounded hover:bg-green-700"
+          id="to-playing-btn"
         >
           Play
         </button>
@@ -71,6 +73,7 @@ defmodule ChildStateMachineWeb.ChildLiveView do
           phx-click="send_event"
           phx-value-event="call_to_eat"
           class="px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-700"
+          id="to-eating-btn"
         >
           Eat
         </button>
@@ -79,6 +82,7 @@ defmodule ChildStateMachineWeb.ChildLiveView do
           phx-click="send_event"
           phx-value-event="give_snack"
           class="px-4 py-2 bg-yellow-500 text-black rounded hover:bg-yellow-600"
+          id="give-snack-btn"
         >
           Give Snack
         </button>

@@ -18,6 +18,18 @@ defmodule ChildStateMachine do
     {:ok, %{state: :playing, mood: 0, snacks: 0, total_snacks_consumed: 0}}
   end
 
+  # Function to reset the state
+  def reset_state do
+    GenServer.cast(__MODULE__, {:reset_state, self()})
+  end
+
+  # Handling the :reset_state message
+  def handle_cast({:reset_state, caller}, _current_state) do
+    new_state = %{state: :playing, mood: 0, snacks: 0, total_snacks_consumed: 0}
+    send(caller, :reset_complete)
+    {:noreply, new_state}
+  end
+
   # Public interface to send events
   def send_event(event) do
     GenServer.call(__MODULE__, {:handle_event, event})

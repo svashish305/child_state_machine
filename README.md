@@ -13,6 +13,10 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 Run `docker-compose up` to start the app on [`localhost:4000`](http://localhost:4000)
 
+## Run tests
+
+Run `mix test` to run unit tests
+
 ## Learn more
 
 * Official website: <https://www.phoenixframework.org/>
