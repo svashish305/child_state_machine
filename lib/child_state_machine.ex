@@ -64,7 +64,10 @@ defmodule ChildStateMachine do
   end
 
   # Handling state and property updates
-  defp determine_new_state(event, state = %{state: current_state, mood: mood, snacks: snacks}) do
+  defp determine_new_state(
+         event,
+         state = %{state: current_state, mood: mood, snacks: snacks, total_snacks_consumed: total}
+       ) do
     case {event, current_state} do
       {:call_to_kindergarten, :playing} ->
         {:ok, %{state | state: :hiding, mood: 0, snacks: snacks}}
@@ -76,8 +79,8 @@ defmodule ChildStateMachine do
         {:ok, %{state | state: :eating_and_watching_cartoons}}
 
       {:call_to_play, :eating_and_watching_cartoons} when snacks > 0 ->
-        {new_mood, new_total_snacks_consumed} =
-          update_mood(mood, state.total_snacks_consumed, snacks)
+        {new_mood, new_total, _breakdown} =
+          update_mood(mood, total, snacks)
 
         {:ok,
          %{
@@ -85,7 +88,7 @@ defmodule ChildStateMachine do
            | state: :playing,
              mood: new_mood,
              snacks: 0,
-             total_snacks_consumed: new_total_snacks_consumed
+             total_snacks_consumed: new_total
          }}
 
       {:call_to_play, :eating_and_watching_cartoons} ->
@@ -98,19 +101,23 @@ defmodule ChildStateMachine do
 
   # Update the mood based on the snacks
   defp update_mood(mood, total_snacks_consumed, snacks_to_consume) do
-    Enum.reduce(1..snacks_to_consume, {mood, total_snacks_consumed}, fn _,
-                                                                        {acc_mood, acc_total} ->
+    Enum.reduce(1..snacks_to_consume, {mood, total_snacks_consumed, []}, fn _,
+                                                                            {acc_mood, acc_total,
+                                                                             breakdown} ->
       new_total = acc_total + 1
 
-      additional_mood =
-        cond do
-          rem(new_total, 15) == 0 -> 8
-          rem(new_total, 5) == 0 -> 4
-          rem(new_total, 3) == 0 -> 2
-          true -> 1
+      {additional_mood, reason} =
+        case new_total do
+          _ when rem(new_total, 15) == 0 -> {8, "15th snack"}
+          _ when rem(new_total, 5) == 0 -> {4, "5th snack"}
+          _ when rem(new_total, 3) == 0 -> {2, "3rd snack"}
+          _ -> {1, "other snack"}
         end
 
-      {acc_mood + additional_mood, new_total}
+      IO.inspect("Snack #{new_total}: #{reason} - Mood increase: #{additional_mood}")
+
+      new_breakdown = [{new_total, reason, additional_mood} | breakdown]
+      {acc_mood + additional_mood, new_total, new_breakdown}
     end)
   end
 end
